@@ -10,3 +10,12 @@
 
 > Запуск сервиса:
 > - Запустите [`start.bat`](https://github.com/Grigoriy457/test-projct/blob/main/start.bat) файла в той же папке где и [`website.py`](https://github.com/Grigoriy457/test-projct/blob/main/website.py)
+
+
+Необходимые модули (`requirements.txt`):
+```
+Flask==2.0.2
+aiogram==2.16
+discord.py==1.7.3
+requests==2.27.1
+```
