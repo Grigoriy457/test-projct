@@ -1,6 +1,6 @@
 # Тестовое задание
 
-Сайт запускается файлом `website.py`
+Сайт запускается файлом `[website.py](https://github.com/Grigoriy457/test-projct/blob/main/website.py)`
 
 Я создал ещё один файл `start.bat`:
 1. `taskkill /IM python.exe /f` - закрытие всех запущенных ботов
