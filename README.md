@@ -7,4 +7,4 @@
 2. `python website.py` - запуск flask сайт (`website.py`)
 
 > Запуск сервиса:
-> - Запуск `start.bat` файла в той же папке где и `website.py`
+> - Запустите `start.bat` файла в той же папке где и `website.py`
