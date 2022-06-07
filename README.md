@@ -1,6 +1,6 @@
 # Тестовое задание
 
-Сайт запускается файлом [`website.py`](https://github.com/Grigoriy457/test-projct/blob/main/website.py)
+Сайт запускается файлом <a href="https://github.com/Grigoriy457/test-projct/blob/main/website.py" target="_blank">`website.py`</a>
 
 
 Я создал ещё один файл [`start.bat`](https://github.com/Grigoriy457/test-projct/blob/main/start.bat):
