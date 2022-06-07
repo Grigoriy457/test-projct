@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Programm your bot!</title>
+
+     <link rel="icon" href="/static/images/logo.ico">
+
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+
+     <link rel="stylesheet" href="/static/css/style.css">
+
+     <style>
+          a {
+               text-decoration: none;
+          }
+     </style>
+</head>
+<body>
+     <h1>Programm your bot! (<a href="/">home page</a> | <a href="/bots/">all bots</a>)</h1>
+
+     <form action="/new_program" method="get">
+          <h3>Bot name: <input name="name" id="name" type="text" required></h3>
+          <h3>Bot token: <input name="token" id="token" type="text" style="width: 600px;" required></h3>
+          
+          <h3>
+               <label><input type="radio" name="program_type" value="hello" checked>Hello</label><br>
+               <label><input type="radio" name="program_type" value="echo">Echo</label><br>
+               <label><input type="radio" name="program_type" value="joke">Joke</label>
+          </h3>
+
+          <button type="submite">Add bot to server</button>
+     </form>
+</body>
+</html>

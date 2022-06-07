@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Programm your bot!</title>
+
+          <link rel="icon" href="/static/images/logo.ico">
+
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+
+          <link rel="stylesheet" href="/static/css/style.css">
+
+          <style>
+               a {
+                    text-decoration: none;
+               }
+
+               fieldset {
+                    max-width: 400px;
+               }
+
+               fieldset + fieldset {
+                    margin-top: 8px;
+               }
+
+               button {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    font-size: 16px;
+                    padding: 0 3px;
+               }
+
+               button.restore {
+                    background-color: #fff0;
+                    outline: none;
+                    border: none;
+                    color: #000000a8;
+               }
+
+               h2 {
+                    color: red;
+               }
+          </style>
+     </head>
+
+     <body>
+          <h1>Programm your bot! (<a href="/">home page</a> | <a href="/program_your_bot/">add new bot</a>)</h1>
+
+          {% if len_bots == 0 %}
+               <h2>There are currently no running bots</h2>
+          {% else %}
+               {% for i in bots%}
+                    <fieldset id="{{ i[0] }}">
+                         <legend id="legend__{{ i[0] }}">
+
+                              <button onclick="delete_bot_function('{{ i[0] }}')">
+                                   <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 48 48" fill="red"><path d="M13.05 42Q11.85 42 10.95 41.1Q10.05 40.2 10.05 39V10.5H8V7.5H17.4V6H30.6V7.5H40V10.5H37.95V39Q37.95 40.2 37.05 41.1Q36.15 42 34.95 42ZM34.95 10.5H13.05V39Q13.05 39 13.05 39Q13.05 39 13.05 39H34.95Q34.95 39 34.95 39Q34.95 39 34.95 39ZM18.35 34.7H21.35V14.75H18.35ZM26.65 34.7H29.65V14.75H26.65ZM13.05 10.5V39Q13.05 39 13.05 39Q13.05 39 13.05 39Q13.05 39 13.05 39Q13.05 39 13.05 39Z"/></svg>
+                                   Delete
+                              </button>
+                         </legend>
+
+                         <b>Bot name:</b> {{ i[1] }}
+
+                         <br>
+
+                         <b>Program type:</b> {{ i[2] }}
+                    </fieldset>
+               {% endfor %}
+          {% endif %}
+     </body>
+
+     <script>
+          function delete_bot_function(token) {
+               const Http = new XMLHttpRequest();
+               const url = `{{ delete_bot_url }}?token=${token}`;
+
+               Http.open("GET", url);
+               Http.send();
+
+               Http.onloadend = function() {
+                    console.log(Http.status, Http.responseText)
+
+                    data = Http.responseText.split("\n")
+
+                    document.getElementById(`legend__${token}`).innerHTML = `<button class="restore" onclick="restore_bot_function('${token}')"><b>Restore bot</b></button><input id="${token}__bot_name" type="hidden" value="${data[1]}"><input id="${token}__program_type" type="hidden" value="${data[2]}">`
+               }
+          }
+
+          function restore_bot_function(token) {
+               bot_name = document.getElementById(`${token}__bot_name`).value
+               program_type = document.getElementById(`${token}__program_type`).value
+
+               const Http = new XMLHttpRequest();
+               const url = `{{ restore_bot_url }}?token=${token}&name=${bot_name}&program_type=${program_type}`;
+
+               Http.open("GET", url);
+               Http.send();
+
+               Http.onloadend = function() {
+                    console.log(Http.status, Http.responseText)
+
+                    document.getElementById(`legend__${token}`).innerHTML = `<button onclick="delete_bot_function('${token}')"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 48 48" fill="red"><path d="M13.05 42Q11.85 42 10.95 41.1Q10.05 40.2 10.05 39V10.5H8V7.5H17.4V6H30.6V7.5H40V10.5H37.95V39Q37.95 40.2 37.05 41.1Q36.15 42 34.95 42ZM34.95 10.5H13.05V39Q13.05 39 13.05 39Q13.05 39 13.05 39H34.95Q34.95 39 34.95 39Q34.95 39 34.95 39ZM18.35 34.7H21.35V14.75H18.35ZM26.65 34.7H29.65V14.75H26.65ZM13.05 10.5V39Q13.05 39 13.05 39Q13.05 39 13.05 39Q13.05 39 13.05 39Q13.05 39 13.05 39Z"/></svg>Delete</button>`
+               }
+          }
+     </script>
+</html>
