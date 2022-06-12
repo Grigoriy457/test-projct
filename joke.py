@@ -1,44 +1,19 @@
-import discord
 from discord.ext import commands
-
-import random
 import requests
-import sys, os
-import asyncio
+import sys
 import threading
 import time
-
+import xml.etree.ElementTree as ET
 from config import *
-from global_functions import *
-from db import Database
+import global_functions as gf
 
 
 client = commands.Bot(command_prefix='!')
 
-db = Database("db.db")
-
-
-def stop_bot(token):
-	os.kill(os.getpid(), 9)
-
-
-async def check(token):
-	await asyncio.sleep(2)
-
-	data = db.get_bot_data(token)
-
-	if data == None:
-		stop_bot(token)
-
-
-def scheduler(token):
-	while True:
-		asyncio.run(check(token))
-
 
 @client.event
 async def on_ready():
-	print(f"Logged in ({client.user})!")
+	print(f"[+] Logged in ({client.user})!")
 
 
 @client.command()
@@ -46,9 +21,11 @@ async def joke(message):
 	if message.author == client.user or message.author.bot:
 		return
 
-	response = requests.get("http://rzhunemogu.ru/RandJSON.aspx?CType=1")
+	response = requests.get("http://rzhunemogu.ru/Rand.aspx?CType=1")
+
 	if response.status_code == 200:
-		await message.reply(response.text[12:-2], mention_author=False)
+		tree = ET.ElementTree(ET.fromstring(response.text))
+		await message.reply(tree.find("content").text, mention_author=False)
 	else:
 		await message.reply(f"Error!\nStatus code: {response.status_code}")
 
@@ -61,6 +38,5 @@ if __name__ == "__main__":
 	time.sleep(2)
 
 	token = sys.argv[1]
-
-	threading.Thread(target=scheduler, args=(token,)).start()
+	threading.Thread(target=gf.scheduler, args=(token, client.user,)).start()
 	start_bot(token)

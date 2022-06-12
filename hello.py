@@ -1,41 +1,18 @@
 import discord
 import random
-import sys, os
-import asyncio
+import sys
 import threading
 import time
-
 from config import *
-from global_functions import *
-from db import Database
+import global_functions as gf
 
 
 client = discord.Client()
 
-db = Database("db.db")
-
-
-def stop_bot(token):
-	os.kill(os.getpid(), 9)
-
-
-async def check(token):
-	await asyncio.sleep(2)
-
-	data = db.get_bot_data(token)
-
-	if data == None:
-		stop_bot(token)
-
-
-def scheduler(token):
-	while True:
-		asyncio.run(check(token))
-
 
 @client.event
 async def on_ready():
-	print(f"Logged in ({client.user})!")
+	print(f"[+] Logged in ({client.user})!")
 
 
 @client.event
@@ -56,6 +33,5 @@ if __name__ == "__main__":
 	time.sleep(2)
 
 	token = sys.argv[1]
-
-	threading.Thread(target=scheduler, args=(token,)).start()
+	threading.Thread(target=gf.scheduler, args=(token, client.user,)).start()
 	start_bot(token)

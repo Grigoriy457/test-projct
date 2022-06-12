@@ -4,8 +4,20 @@ import sqlite3
 
 class Database:
 	def __init__(self, db_file):
-		self.connection = sqlite3.connect(db_file, check_same_thread=False)
-		self.cursor = self.connection.cursor()
+		try:
+			with open(db_file, "r") as file:
+				self.connection = sqlite3.connect(db_file, check_same_thread=False)
+				self.cursor = self.connection.cursor()
+		except FileNotFoundError:
+			with open(db_file, "w") as file:
+				self.connection = sqlite3.connect(db_file, check_same_thread=False)
+				self.cursor = self.connection.cursor()
+
+				self.cursor.execute("""CREATE TABLE "bots" (
+									   	   "token"        VARCHAR NOT NULL,
+									   	   "bot_name"     VARCHAR NOT NULL,
+									   	   "program_type" VARCHAR NOT NULL
+									   );""")
 
 
 	def delete_bot_from_bots(self, token):

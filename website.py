@@ -103,11 +103,11 @@ def error_function():
     except KeyError:
         return redirect("/")
 
-    if error == list():
+    if error_list == list():
         return redirect("/")
 
-    if len(error) == 1:
-        error.append("")
+    if len(error_list) == 1:
+        error_list.append("")
 
     return render_template("error.html", delay=4, error=error_list[0], bot_name=error_list[1], redirect_to=f"http://{HOST}:{PORT}/program_your_bot")
 
