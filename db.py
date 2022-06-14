@@ -13,7 +13,6 @@ class Database:
 		self.cursor = self.connection.cursor()
 
 		if not os.path.exists(db_file):  # Проверка на существование файла
-			
 			# Создание таблицы
 			self.cursor.execute("""CREATE TABLE "bots" (
 									   "token"        VARCHAR NOT NULL,
