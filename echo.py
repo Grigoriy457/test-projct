@@ -19,7 +19,7 @@ async def on_message(message):
 	if message.author == client.user or message.author.bot:  # Проверка сообщения от бота или пользователя
 		return
 
-	if message.content != "":  # ОБработка пустого сообщения (если отправляется картинка без текста)
+	if message.content != "":  # Обработка пустого сообщения (если отправляется картинка без текста)
 		await message.channel.send(message.content)
 
 
