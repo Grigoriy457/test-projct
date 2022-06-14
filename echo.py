@@ -30,6 +30,6 @@ def start_bot(token):
 if __name__ == "__main__":
 	time.sleep(2)
 
-	token = sys.argv[1]
+	token = sys.argv[1]  # Получение токена из строки вызова (python echo.py TOKEN)
 	threading.Thread(target=gf.scheduler, args=(token, client.user,)).start()
 	start_bot(token)
