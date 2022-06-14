@@ -18,14 +18,14 @@ async def on_ready():
 
 @client.command()
 async def joke(message):
-	if message.author == client.user or message.author.bot:
+	if message.author == client.user or message.author.bot:  # Проверка сообщения от бота или пользователя
 		return
 
-	response = requests.get("http://rzhunemogu.ru/Rand.aspx?CType=1")
+	response = requests.get("http://rzhunemogu.ru/Rand.aspx?CType=1")  # Отправка запроса на сайт с шуками
 
-	if response.status_code == 200:
-		tree = ET.ElementTree(ET.fromstring(response.text))
-		await message.reply(tree.find("content").text, mention_author=False)
+	if response.status_code == 200:  # Проверка статус кода (200 - всё хорошо)
+		tree = ET.ElementTree(ET.fromstring(response.text))  # Парсинг xml структуры
+		await message.reply(tree.find("content").text, mention_author=False)  # Получение content из xml структуры
 	else:
 		await message.reply(f"Error!\nStatus code: {response.status_code}")
 
@@ -37,6 +37,6 @@ def start_bot(token):
 if __name__ == "__main__":
 	time.sleep(2)
 
-	token = sys.argv[1]
+	token = sys.argv[1]  # Получение токена из строки вызова (python echo.py TOKEN)
 	threading.Thread(target=gf.scheduler, args=(token, client.user,)).start()
 	start_bot(token)
