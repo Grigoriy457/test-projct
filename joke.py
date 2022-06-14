@@ -31,7 +31,7 @@ async def joke(message):
 
 
 def start_bot(token):
-	client.run(token)
+	client.run(token)  # Запуск бота
 
 
 if __name__ == "__main__":

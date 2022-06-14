@@ -21,18 +21,21 @@ db = Database("db.db")
 
 
 
+# Домашняя страница
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
 
 
 
+# Страница для создания нового бота
 @app.route("/program_your_bot/", methods=["GET"])
 def program_your_bot():
     return render_template("programm_your_bot.html")
 
 
 
+# Все боты
 @app.route("/bots/", methods=["GET"])
 def bots():
     bots = db.get_all_bots()
@@ -40,6 +43,7 @@ def bots():
 
 
 
+# Удаление бота
 @app.route("/delete_bot/", methods=["GET"])
 def delete_bot():
     token = request.args.get("token", "")
@@ -52,6 +56,7 @@ def delete_bot():
 
 
 
+# Востановление бота
 @app.route("/restore_bot/", methods=["GET"])
 def restore_bot():
     token = request.args.get("token", "")
@@ -60,7 +65,7 @@ def restore_bot():
 
     if token != "":
         db.add_bot_to_bots(token, name, program_type)
-        subprocess.Popen(f'python {program_type}.py {token}')
+        subprocess.Popen(f'python {program_type}.py {token}')  # Запуск бота
 
         return "Ok!"
 
@@ -68,6 +73,7 @@ def restore_bot():
 
 
 
+# Добавление новой задачи (бота) в бд и её запуск
 @app.route("/new_program/", methods=["GET"])
 def new_program():
     token = request.args.get("token", "")
@@ -81,7 +87,7 @@ def new_program():
 
     if token != "":
         db.add_bot_to_bots(token, name, program_type)
-        subprocess.Popen(f'python {program_type}.py {token}')
+        subprocess.Popen(f'python {program_type}.py {token}')  # Запуск бота
 
         return redirect("/load")
 
@@ -89,12 +95,14 @@ def new_program():
 
 
 
+# Страница загрузки
 @app.route("/load/", methods=["GET"])
 def load():
     return render_template("load.html", redirect_to=f"http://{HOST}:{PORT}/bots")
 
 
 
+# Страница ошибки
 @app.route('/error/', methods=["GET"])
 def error_function():
     try:
@@ -120,6 +128,7 @@ if __name__ == "__main__":
 
     time.sleep(2)
 
+    # Запуск ботов
     for i in bots:
         db.add_bot_to_bots(i[0], i[1], i[2])
         subprocess.Popen(f'python {i[2]}.py {i[0]}')

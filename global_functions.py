@@ -7,6 +7,7 @@ from config import *
 db = Database("db.db")
 
 
+# Форматирование текста (убирание знаков припинания и перевод строки в нижний регистр)
 def format_text(text):
 	new_text = ""
 	for i in text.lower():
@@ -17,10 +18,11 @@ def format_text(text):
 
 def stop_bot(token, bot_name):
 	print(f"[+] Bot {bot_name} is disabled!")
-	os.kill(os.getpid(), 9)
+	os.kill(os.getpid(), 9)  # Выключение бота
 
 
-async def check(token, bot_name):  # Проверка существованиятокена бота в базе данных
+# Проверка существованиятокена бота в базе данных
+async def check(token, bot_name):
 	await asyncio.sleep(2)
 
 	data = db.get_bot_data(token)
